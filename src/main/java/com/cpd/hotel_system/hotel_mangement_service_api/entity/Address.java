@@ -1,11 +1,17 @@
 package com.cpd.hotel_system.hotel_mangement_service_api.entity;
 
 import jakarta.persistence.*;
+import lombok.*;
 
 import java.math.BigDecimal;
 
 @Entity
 @Table(name = "address")
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
 public class Address {
 
     @Id

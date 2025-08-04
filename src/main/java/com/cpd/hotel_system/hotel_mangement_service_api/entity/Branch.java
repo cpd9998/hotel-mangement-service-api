@@ -3,11 +3,17 @@ package com.cpd.hotel_system.hotel_mangement_service_api.entity;
 
 import com.cpd.hotel_system.hotel_mangement_service_api.enums.BranchType;
 import jakarta.persistence.*;
+import lombok.*;
 
 import java.util.List;
 
 @Entity
 @Table(name = "branch")
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
 public class Branch {
 
     @Id

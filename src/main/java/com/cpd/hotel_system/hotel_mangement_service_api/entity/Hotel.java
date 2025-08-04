@@ -1,14 +1,21 @@
 package com.cpd.hotel_system.hotel_mangement_service_api.entity;
 
 import jakarta.persistence.*;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.sql.Blob;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
 @Table(name="hotel")
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
 public class Hotel {
 
     @Id
@@ -26,10 +33,10 @@ public class Hotel {
     private Blob description;
 
     @Column(name = "created_at",nullable = false)
-    private LocalDate createdAt;
+    private LocalDateTime createdAt;
 
     @Column(name = "updated_at",nullable = false)
-    private LocalDate updatedAt;
+    private LocalDateTime updatedAt;
 
     @Column(name = "active_status")
     private boolean activeStatus;

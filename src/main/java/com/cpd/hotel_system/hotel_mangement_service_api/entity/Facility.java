@@ -1,11 +1,17 @@
 package com.cpd.hotel_system.hotel_mangement_service_api.entity;
 
 import jakarta.persistence.*;
+import lombok.*;
 
 import java.util.List;
 
 @Entity
 @Table(name = "facility")
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
 public class Facility {
 
     @Id
