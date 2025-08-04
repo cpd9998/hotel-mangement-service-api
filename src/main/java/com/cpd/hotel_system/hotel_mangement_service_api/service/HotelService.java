@@ -4,9 +4,11 @@ import com.cpd.hotel_system.hotel_mangement_service_api.dto.request.RequestHotel
 import com.cpd.hotel_system.hotel_mangement_service_api.dto.response.ResponseHotelDto;
 import com.cpd.hotel_system.hotel_mangement_service_api.dto.response.paginate.HotelPaginateResponseDto;
 
+import java.sql.SQLException;
+
 public interface HotelService {
 
-    public void create(RequestHotelDto dto);
+    public void create(RequestHotelDto dto) throws SQLException;
     public  void update(RequestHotelDto dto,String hotelId);
     public  void delete( String hotelId);
     public ResponseHotelDto findById(String hotelId);

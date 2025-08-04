@@ -1,8 +1,11 @@
 package com.cpd.hotel_system.hotel_mangement_service_api.service.impl;
 
 import com.cpd.hotel_system.hotel_mangement_service_api.dto.request.RequestHotelDto;
+import com.cpd.hotel_system.hotel_mangement_service_api.dto.response.ResponseBranchDto;
 import com.cpd.hotel_system.hotel_mangement_service_api.dto.response.ResponseHotelDto;
+import com.cpd.hotel_system.hotel_mangement_service_api.dto.response.ResponseRoomDto;
 import com.cpd.hotel_system.hotel_mangement_service_api.dto.response.paginate.HotelPaginateResponseDto;
+import com.cpd.hotel_system.hotel_mangement_service_api.entity.Branch;
 import com.cpd.hotel_system.hotel_mangement_service_api.entity.Hotel;
 import com.cpd.hotel_system.hotel_mangement_service_api.repo.HotelRepo;
 import com.cpd.hotel_system.hotel_mangement_service_api.service.HotelService;
@@ -21,8 +24,8 @@ public class HotelServiceImpl implements HotelService {
     private final HotelRepo hotelRepo;
     private final ByteCodeHandler byteCodeHandler;
     @Override
-    public void create(RequestHotelDto dto) {
-
+    public void create(RequestHotelDto dto) throws SQLException {
+      hotelRepo.save(toHotel(dto));
     }
 
     @Override
@@ -67,9 +70,28 @@ public class HotelServiceImpl implements HotelService {
                 .startingFrom(hotel.getStartingFrom())
                 .updatedAt(hotel.getUpdatedAt())
                 .createdAt(hotel.getCreatedAt())
-                .description(hotel.getDescription())
-                .branches()
+                .description(byteCodeHandler.blobToString(hotel.getDescription()))
+                .branches(hotel.getBranches().stream().map( e-> {
+                            try {
+                                return toResponseBranchDto(e);
+                            } catch (SQLException ex) {
+                                throw new RuntimeException(ex);
+                            }
+                        }).toList())
                 .build();
 
     }
+
+    private ResponseBranchDto toResponseBranchDto(Branch branch) throws SQLException {
+
+        return branch == null ? null :
+                ResponseBranchDto.builder()
+                .branchId(branch.getBranchId())
+                .branchName(branch.getBranchName())
+                .roomCount(branch.getRoomCount())
+                .branchType(branch.getBranchType())
+                .build();
+    }
+
+
 }

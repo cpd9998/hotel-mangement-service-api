@@ -16,6 +16,12 @@ public class ByteCodeHandler {
 
     }
 
+    public String blobToString(Blob data) throws SQLException {
+        int blobLength = (int)data.length();
+        byte[] bytes = data.getBytes(1, blobLength);
+        return new String(bytes, StandardCharsets.UTF_8);
+    }
+
 
 
 }
