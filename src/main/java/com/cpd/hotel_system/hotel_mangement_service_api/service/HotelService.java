@@ -9,7 +9,7 @@ import java.sql.SQLException;
 public interface HotelService {
 
     public void create(RequestHotelDto dto) throws SQLException;
-    public  void update(RequestHotelDto dto,String hotelId);
+    public  void update(RequestHotelDto dto,String hotelId) throws SQLException;
     public  void delete( String hotelId);
     public ResponseHotelDto findById(String hotelId);
     public HotelPaginateResponseDto findAll(int page, int size, String searchText);
