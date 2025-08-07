@@ -12,11 +12,13 @@ import com.cpd.hotel_system.hotel_mangement_service_api.repo.HotelRepo;
 import com.cpd.hotel_system.hotel_mangement_service_api.service.HotelService;
 import com.cpd.hotel_system.hotel_mangement_service_api.util.ByteCodeHandler;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -47,13 +49,26 @@ public class HotelServiceImpl implements HotelService {
     }
 
     @Override
-    public ResponseHotelDto findById(String hotelId) {
-        return null;
+    public ResponseHotelDto findById(String hotelId) throws SQLException {
+        Hotel selectedHotel = hotelRepo.findById(hotelId).orElseThrow(()->new EntryNotFoundException("Hotel not found"));
+       return toResponseHotelDto(selectedHotel);
     }
 
     @Override
     public HotelPaginateResponseDto findAll(int page, int size, String searchText) {
-        return null;
+
+      return   HotelPaginateResponseDto.builder()
+                .dataCount(hotelRepo.countAllHotels(searchText))
+                .dataList(hotelRepo.searchAllHotels(searchText, PageRequest.of(page,size))
+                .stream().map(e-> {
+                                    try {
+                                        return toResponseHotelDto(e);
+                                    } catch (SQLException ex) {
+                                        throw new RuntimeException(ex);
+
+                                    }
+                                    }).collect(Collectors.toList())
+                ).build();
     }
 
     private Hotel toHotel(RequestHotelDto dto) throws SQLException {
